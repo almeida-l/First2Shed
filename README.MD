@@ -1,15 +1,14 @@
 # First2Shed Game
 
-This project implements a game engine inspired by UNO in Go with clean separation of concerns and a well-defined finite state machine (FSM) for managing game flow.
+This project implements a game engine inspired by UNO in Go with a well-defined finite state machine (FSM) for managing game flow.
 The goal of this project is to be integrated with Telegram bots so it can be played in group chats.
 
 ## Status
 This project is currently in the **initial stages of development** and is **not yet runnable**.  
-The core game engine and state machine are being implemented.
 
 ---
 
-## 🧠 Finite State Machine (FSM)
+## Finite State Machine (FSM)
 
 The engine is driven by events injected through the game `Process` method, which drives an FSM with the following states:
 
@@ -42,7 +41,7 @@ The engine is driven by events injected through the game `Process` method, which
 ### `StatePlayerTurn`
 - Waits for current player to:
   - Play a card (must match color or value, or be wild)
-  - Or draw and optionally play it.
+  - Or draw and play it or pass.
 - Transitions to `StateResolvingCard` after a play.
 
 ### `StateGameOver`
