@@ -9,17 +9,7 @@ var (
 type Player struct {
 	ID int
 
-	Game *Game
+	game *Game
 
 	Hand *Hand
-}
-
-func (p *Player) PlayCard(card Card) error {
-	// Validate that the card is in the player's hand
-	if !p.Hand.Contains(card) {
-		return ErrCardNotInHand
-	}
-
-	// Pass the responsibility of actually playing the card to the Game
-	return p.Game.PlayCard(p, card)
 }
