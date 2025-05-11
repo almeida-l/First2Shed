@@ -2,11 +2,6 @@ package core
 
 type Event interface{}
 
-// Commands events (external).
-type StartGameCommand struct{}
-
-// Internal events (issued by the game core itself).
-
 // NotifyEvent marks an Event that should trigger an external notification.
 //
 // Events that implement NotifyEvent are used by the game core to signal
@@ -17,6 +12,28 @@ type NotifyEvent interface {
 	// Its presence identifies events that need external handling.
 	EmitNotification()
 }
+
+// Commands events (external).
+type StartGameCommand struct{}
+
+type PlayCardCommand struct {
+	card   Card
+	player *Player
+}
+
+type DrawCardCommand struct {
+	player *Player
+}
+
+func (e *DrawCardCommand) EmitNotification() {}
+
+type PassCommand struct {
+	player *Player
+}
+
+func (e *PassCommand) EmitNotification() {}
+
+// Internal events (issued by the game core itself).
 
 type DealingFinishedEvent struct{}
 
