@@ -32,12 +32,12 @@ func (PlayerJoinCommand) MarkAsGlobal() {}
 type StartGameCommand struct{}
 
 type PlayCardCommand struct {
-	card   Card
-	player *Player
+	Card   Card
+	Player *Player
 }
 
 type DrawCardCommand struct {
-	player *Player
+	Player *Player
 }
 
 func (DrawCardCommand) EmitNotification() {}
