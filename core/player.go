@@ -9,7 +9,5 @@ var (
 type Player struct {
 	ID int
 
-	game *Game
-
 	Hand *Hand
 }
