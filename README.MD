@@ -43,6 +43,7 @@ The engine is driven by events injected through the game `Process` method, which
   - Play a card (must match color or value, or be wild)
   - Or draw and play it or pass.
 - Transitions to `StateResolvingCard` after a play.
+- Transitions back to `SatePlayerTurn` when player pass (after changing turn)
 
 ### `StateGameOver`
 - Ends the game and declares a winner.
