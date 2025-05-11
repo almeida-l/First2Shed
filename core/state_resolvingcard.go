@@ -41,4 +41,6 @@ func (s *StateResolvingCard) Next(gameCtx *Game, e Event) State {
 	default:
 		return nil
 	}
+
+	return nil
 }
