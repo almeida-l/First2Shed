@@ -13,7 +13,22 @@ type NotifyEvent interface {
 	EmitNotification()
 }
 
+// GlobalEvent marks an Event that can be handled in any game state.
+//
+// Events that implement GlobalEvent are intercepted and processed by
+// the game engine itself rather than being delegated to the current FSM state.
+type GlobalEvent interface {
+	MarkAsGlobal()
+}
+
 // Commands events (external).
+
+type PlayerJoinCommand struct {
+	ID int
+}
+
+func (PlayerJoinCommand) MarkAsGlobal() {}
+
 type StartGameCommand struct{}
 
 type PlayCardCommand struct {
