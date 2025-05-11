@@ -77,6 +77,15 @@ func (g *Game) NextTurn() {
 	g.currentPlayer = g.players[g.currentPlayerIdx]
 }
 
+func (g *Game) GetPlayerFromID(playerID int) *Player {
+	for idx, p := range g.players {
+		if p.ID == playerID {
+			return g.players[idx]
+		}
+	}
+	return nil
+}
+
 func (g *Game) handleGlobalEvent(e Event) {
 	switch ev := e.(type) {
 	case PlayerJoinCommand:
@@ -91,12 +100,10 @@ func (g *Game) handlePlayerJoin(playerJoinCommand PlayerJoinCommand) {
 		return
 	}
 
-	for _, p := range g.players {
-		if p.ID == playerJoinCommand.ID {
-			// TODO: raise an event that notifies the player that he is already in the game
-			log.Printf("player ID %d already in the game", playerJoinCommand.ID)
-			return
-		}
+	if player := g.GetPlayerFromID(playerJoinCommand.ID); player != nil {
+		// TODO: raise an event that notifies the player that he is already in the game
+		log.Printf("player ID %d already in the game", playerJoinCommand.ID)
+		return
 	}
 
 	g.players = append(g.players, &Player{ID: playerJoinCommand.ID})
