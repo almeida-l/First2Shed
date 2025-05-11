@@ -31,7 +31,7 @@ func (s *StatePlayerTurn) OnEnter(gameCtx *Game) {
 func (s *StatePlayerTurn) Next(gameCtx *Game, e Event) State {
 	switch event := e.(type) {
 	case PlayCardCommand:
-		event.player.PlayCard(event.card)
+		gameCtx.PlayCard(event.player, event.card)
 		return gameCtx.stateResolvingCard
 	case DrawCardCommand:
 		card, err := gameCtx.drawPile.Pop()
