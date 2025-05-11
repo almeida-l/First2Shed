@@ -40,13 +40,13 @@ type DrawCardCommand struct {
 	player *Player
 }
 
-func (e *DrawCardCommand) EmitNotification() {}
+func (DrawCardCommand) EmitNotification() {}
 
 type PassCommand struct {
 	player *Player
 }
 
-func (e *PassCommand) EmitNotification() {}
+func (PassCommand) EmitNotification() {}
 
 // Internal events (issued by the game core itself).
 
