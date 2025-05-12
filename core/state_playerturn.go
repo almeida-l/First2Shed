@@ -31,7 +31,7 @@ func (s *StatePlayerTurn) OnEnter(gameCtx *Game) {
 func (s *StatePlayerTurn) Next(gameCtx *Game, e Event) State {
 	switch event := e.(type) {
 	case PlayCardCommand:
-		gameCtx.PlayCard(event.player, event.card)
+		gameCtx.PlayCard(event.Player, event.Card)
 		return gameCtx.stateResolvingCard
 	case DrawCardCommand:
 		card, err := gameCtx.drawPile.Pop()
@@ -40,7 +40,7 @@ func (s *StatePlayerTurn) Next(gameCtx *Game, e Event) State {
 			gameCtx.ResetDrawPile()
 			card, _ = gameCtx.drawPile.Pop()
 		}
-		event.player.Hand.Add(card)
+		event.Player.Hand.Add(card)
 		s.hasDrew = true
 		return nil
 	case PassCommand:
@@ -52,13 +52,16 @@ func (s *StatePlayerTurn) Next(gameCtx *Game, e Event) State {
 }
 
 func canPlayCard(gameCtx *Game, playCardCommand PlayCardCommand) bool {
-	if playCardCommand.player != gameCtx.currentPlayer {
+	if playCardCommand.Player != gameCtx.currentPlayer {
+		log.Printf("PlayerID %d is not the player in turn", playCardCommand.Player.ID)
 		return false
 	}
-	if !playCardCommand.card.CanPlayOn(gameCtx.lastPlayedCard) {
+	if !playCardCommand.Card.CanPlayOn(gameCtx.lastPlayedCard) {
+		log.Printf("The card %s cannot be played on card %s", playCardCommand.Card, gameCtx.lastPlayedCard)
 		return false
 	}
-	if !playCardCommand.player.Hand.Contains(playCardCommand.card) {
+	if !playCardCommand.Player.Hand.Contains(playCardCommand.Card) {
+		log.Printf("PlayerID %d do not have the card %s in his hand", playCardCommand.Player.ID, playCardCommand.Card)
 		return false
 	}
 
@@ -66,7 +69,7 @@ func canPlayCard(gameCtx *Game, playCardCommand PlayCardCommand) bool {
 }
 
 func canDrawCard(gameCtx *Game, drawCardCommand DrawCardCommand) bool {
-	if drawCardCommand.player != gameCtx.currentPlayer {
+	if drawCardCommand.Player != gameCtx.currentPlayer {
 		return false
 	}
 
