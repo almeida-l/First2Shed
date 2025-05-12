@@ -1,5 +1,7 @@
 package core
 
+import "log"
+
 /* `StatePlayerTurn`
 - Waits for current player to:
   - Play a card (must match color or value, or be wild)
@@ -25,7 +27,13 @@ func (s *StatePlayerTurn) CanHandle(gameCtx *Game, e Event) bool {
 }
 
 func (s *StatePlayerTurn) OnEnter(gameCtx *Game) {
+	if gameCtx.currentPlayer == nil { // its the first player after the initial card
+		gameCtx.currentPlayer = gameCtx.players[gameCtx.currentPlayerIdx]
+	}
+
 	s.hasDrew = false
+	// TODO: raise an event that notifies that is the players turn
+	log.Printf("PlayerID %d it's yours turn!", gameCtx.currentPlayer.ID)
 }
 
 func (s *StatePlayerTurn) Next(gameCtx *Game, e Event) State {
