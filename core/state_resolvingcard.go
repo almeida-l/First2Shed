@@ -37,10 +37,8 @@ func (s *StateResolvingCard) OnEnter(gameCtx *Game) {
 func (s *StateResolvingCard) Next(gameCtx *Game, e Event) State {
 	switch e.(type) {
 	case CardResolvedEvent:
-		gameCtx.state = gameCtx.statePlayerTurn
+		return gameCtx.statePlayerTurn
 	default:
 		return nil
 	}
-
-	return nil
 }
