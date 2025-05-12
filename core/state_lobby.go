@@ -18,7 +18,7 @@ type StateLobby struct {
 func (s *StateLobby) CanHandle(gameCtx *Game, e Event) bool {
 	switch e.(type) {
 	case StartGameCommand:
-		return gameCtx.numPlayers > 1
+		return len(gameCtx.players) > 1
 	}
 	return false
 }
