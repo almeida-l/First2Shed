@@ -47,10 +47,14 @@ func (g *Game) Process(e Event) {
 	}
 
 	if g.state.CanHandle(g, e) {
+		log.Printf("[PROCESS EVENT] State %T can handle the event %T", g.state, e)
 		if state := g.state.Next(g, e); state != nil {
+			log.Printf("[PROCESS EVENT] Transitioning to state %T", state)
 			g.state = state
 			g.state.OnEnter(g)
 		}
+	} else {
+		log.Printf("[PROCESS EVENT] State %T cannot handle the event %T", g.state, e)
 	}
 }
 
