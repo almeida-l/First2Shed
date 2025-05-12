@@ -110,8 +110,12 @@ func (g *Game) handlePlayerJoin(playerJoinCommand PlayerJoinCommand) {
 		log.Printf("player ID %d already in the game", playerJoinCommand.ID)
 		return
 	}
+	newPlayer := &Player{
+		ID:   playerJoinCommand.ID,
+		Hand: &Hand{},
+	}
 
-	g.players = append(g.players, &Player{ID: playerJoinCommand.ID})
+	g.players = append(g.players, newPlayer)
 	// TODO: raise an event to annouce that a new player joined
 	log.Printf("player ID %d joined", playerJoinCommand.ID)
 }
