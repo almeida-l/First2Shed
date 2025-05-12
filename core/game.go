@@ -48,6 +48,7 @@ func (g *Game) Process(e Event) {
 
 	if g.state.CanHandle(g, e) {
 		if state := g.state.Next(g, e); state != nil {
+			g.state = state
 			g.state.OnEnter(g)
 		}
 	}
