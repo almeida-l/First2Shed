@@ -29,6 +29,7 @@ func (g *Game) Init() {
 	g.stateDealing = &StateDealing{}
 	g.stateSettingInitialCard = &StateSettingInitialCard{}
 	g.stateResolvingCard = &StateResolvingCard{}
+	g.statePlayerTurn = &StatePlayerTurn{}
 
 	g.state = g.stateLobby
 
