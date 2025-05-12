@@ -34,7 +34,10 @@ func (s *StateDealing) CanHandle(gameCtx *Game, e Event) bool {
 }
 
 func (s *StateDealing) Next(gameCtx *Game, e Event) State {
-	// TODO: returns StateSettingInitialCard
+	switch e.(type) {
+	case DealingFinishedEvent:
+		return gameCtx.stateSettingInitialCard
+	}
 	return nil
 }
 
