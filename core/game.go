@@ -3,8 +3,7 @@ package core
 import "log"
 
 type Game struct {
-	players    []*Player
-	numPlayers int
+	players []*Player
 
 	currentPlayer    *Player
 	currentPlayerIdx int
