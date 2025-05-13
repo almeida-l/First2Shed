@@ -69,6 +69,9 @@ func (g *Game) Process(e Event) {
 func (g *Game) PlayCard(player *Player, card Card) error {
 	g.discardPile.Push(card)
 	g.lastPlayedCard = card
+	if player != nil { // when player is nil, it's the initial card
+		player.Hand.Remove(card)
+	}
 	return nil
 }
 
