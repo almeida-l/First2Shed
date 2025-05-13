@@ -28,10 +28,10 @@ func (s *StateResolvingCard) CanHandle(gameCtx *Game, e Event) bool {
 }
 
 func (s *StateResolvingCard) OnEnter(gameCtx *Game) {
-	if !gameCtx.lastPlayedCard.HasEffect() {
-		gameCtx.Process(CardResolvedEvent{})
-		return
+	if gameCtx.lastPlayedCard.HasEffect() {
+		// TODO: handle effect
 	}
+	gameCtx.Process(CardResolvedEvent{})
 }
 
 func (s *StateResolvingCard) Next(gameCtx *Game, e Event) State {
