@@ -45,8 +45,7 @@ func (s *StatePlayerTurn) Next(gameCtx *Game, e Event) State {
 		s.hasDrew = true
 		return nil
 	case PassCommand:
-		gameCtx.NextTurn()
-		return gameCtx.statePlayerTurn
+		return gameCtx.statePlayerTurn // will trigger the statePlayerTun.OnEnter() that will call NextTurn()
 	}
 
 	return nil
