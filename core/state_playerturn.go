@@ -40,12 +40,7 @@ func (s *StatePlayerTurn) Next(gameCtx *Game, e Event) State {
 		gameCtx.PlayCard(event.Player, event.Card)
 		return gameCtx.stateResolvingCard
 	case DrawCardCommand:
-		card, err := gameCtx.drawPile.Pop()
-		if err == ErrEmptyPile {
-			// that is kinda sus but i think its ok for now
-			gameCtx.ResetDrawPile()
-			card, _ = gameCtx.drawPile.Pop()
-		}
+		card := gameCtx.PopCardFromDrawPile()
 		event.Player.Hand.Add(card)
 		s.hasDrew = true
 		return nil
