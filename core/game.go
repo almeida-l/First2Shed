@@ -42,6 +42,7 @@ func (g *Game) Init() {
 	g.state = g.stateLobby
 
 	g.turnDirection = 1
+	g.currentPlayerIdx = -1 // initializes to -1 so when the game start the NextTurn() method will be called and the first players will be set to idx 0
 
 	g.isLobbyOpen = true
 }

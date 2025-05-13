@@ -27,11 +27,7 @@ func (s *StatePlayerTurn) CanHandle(gameCtx *Game, e Event) bool {
 }
 
 func (s *StatePlayerTurn) OnEnter(gameCtx *Game) {
-	if gameCtx.currentPlayer == nil { // its the first player after the initial card
-		gameCtx.currentPlayer = gameCtx.players[gameCtx.currentPlayerIdx]
-	} else {
-		gameCtx.NextTurn()
-	}
+	gameCtx.NextTurn()
 
 	s.hasDrew = false
 	// TODO: raise an event that notifies that is the players turn
