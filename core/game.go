@@ -103,6 +103,28 @@ func (g *Game) GetPlayerFromID(playerID int) *Player {
 	return nil
 }
 
+func (g *Game) PeekNextPlayer() *Player {
+	nextIdx := g.currentPlayerIdx + g.turnDirection
+	switch {
+	case nextIdx >= len(g.players):
+		nextIdx = 0
+	case nextIdx < 0:
+		nextIdx = len(g.players) - 1
+	}
+
+	return g.players[nextIdx]
+}
+
+func (g *Game) PopCardFromDrawPile() Card {
+	card, err := g.drawPile.Pop()
+	if err == ErrEmptyPile {
+		g.ResetDrawPile()
+		card, _ = g.drawPile.Pop()
+	}
+
+	return card
+}
+
 func (g *Game) handleGlobalEvent(e Event) {
 	switch ev := e.(type) {
 	case PlayerJoinCommand:
