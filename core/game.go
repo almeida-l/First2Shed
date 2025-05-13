@@ -2,6 +2,14 @@ package core
 
 import "log"
 
+func (g *Game) DebugGetCurrentPlayer() *Player {
+	return g.currentPlayer
+}
+
+func (g *Game) DebugGetLastPlayedCard() Card {
+	return g.lastPlayedCard
+}
+
 type Game struct {
 	players []*Player
 
