@@ -43,7 +43,7 @@ type DrawCardCommand struct {
 func (DrawCardCommand) EmitNotification() {}
 
 type PassCommand struct {
-	player *Player
+	Player *Player
 }
 
 func (PassCommand) EmitNotification() {}

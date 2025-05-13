@@ -78,7 +78,7 @@ func canDrawCard(gameCtx *Game, drawCardCommand DrawCardCommand) bool {
 }
 
 func canPass(gameCtx *Game, passCommand PassCommand) bool {
-	if passCommand.player != gameCtx.currentPlayer {
+	if passCommand.Player != gameCtx.currentPlayer {
 		return false
 	}
 
