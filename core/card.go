@@ -18,7 +18,7 @@ func (c *Card) IsWild() bool {
 }
 
 func (c *Card) HasEffect() bool {
-	return c.Value == VDrawTwo || c.Value == VSkip || c.Value == VReverse || c.Value == VWild || c.Value == VWildDrawFour
+	return c.Value == VDrawTwo || c.Value == VSkip || c.Value == VReverse || c.Value == VWildDrawFour
 }
 
 func (c *Card) CanPlayOn(other Card) bool {
