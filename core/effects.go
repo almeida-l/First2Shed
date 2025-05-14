@@ -6,6 +6,7 @@ func ApplyCardEffects(gameCtx *Game, card Card) {
 		gameCtx.NextTurn()
 	case VReverse:
 		gameCtx.turnDirection *= -1
+		gameCtx.NextTurn()
 	case VDrawTwo:
 		makeNextPlayerDrawNCards(gameCtx, 2)
 		gameCtx.NextTurn()
