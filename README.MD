@@ -46,5 +46,4 @@ The engine is driven by events injected through the game `Process` method, which
 - Transitions back to `SatePlayerTurn` when player pass (after changing turn)
 
 ### `StateGameOver`
-- Ends the game and declares a winner.
-- Resets to `StateLobby` or terminates.
+- Ends the game

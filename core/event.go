@@ -68,3 +68,9 @@ type CardResolvedEvent struct{}
 type WildCardPlayedEvent struct{}
 
 func (WildCardPlayedEvent) EmitNotification() {}
+
+type SetWinner struct {
+	Player *Player
+}
+
+func (SetWinner) EmitNotification() {}

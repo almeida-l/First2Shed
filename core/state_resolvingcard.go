@@ -24,12 +24,19 @@ func (s *StateResolvingCard) CanHandle(gameCtx *Game, e Event) bool {
 		return true
 	case WildCardPlayedEvent:
 		return true
+	case SetWinner:
+		return true
 	default:
 		return false
 	}
 }
 
 func (s *StateResolvingCard) OnEnter(gameCtx *Game) {
+	if gameCtx.currentPlayer != nil && gameCtx.currentPlayer.Hand.Len() == 0 {
+		gameCtx.Process(SetWinner{Player: gameCtx.currentPlayer})
+		return
+	}
+
 	if gameCtx.lastPlayedCard.Color == CWild {
 		gameCtx.Process(WildCardPlayedEvent{})
 		return
@@ -47,6 +54,8 @@ func (s *StateResolvingCard) Next(gameCtx *Game, e Event) State {
 		return gameCtx.statePlayerTurn
 	case WildCardPlayedEvent:
 		return gameCtx.stateAwaitingColorChoice
+	case SetWinner:
+		return gameCtx.stateGameOver
 	default:
 		return nil
 	}

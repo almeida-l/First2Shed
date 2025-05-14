@@ -31,6 +31,7 @@ type Game struct {
 	stateResolvingCard       *StateResolvingCard
 	statePlayerTurn          *StatePlayerTurn
 	stateAwaitingColorChoice *StateAwaitingColorChoice
+	stateGameOver            *StateGameOver
 }
 
 func (g *Game) Init() {
