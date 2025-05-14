@@ -11,6 +11,7 @@ func ApplyCardEffects(gameCtx *Game, card Card) {
 		gameCtx.NextTurn()
 	case VWildDrawFour:
 		makeNextPlayerDrawNCards(gameCtx, 4)
+		gameCtx.NextTurn()
 	}
 }
 
