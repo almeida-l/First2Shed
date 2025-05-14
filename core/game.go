@@ -24,12 +24,13 @@ type Game struct {
 
 	isLobbyOpen bool
 
-	state                   State
-	stateLobby              *StateLobby
-	stateDealing            *StateDealing
-	stateSettingInitialCard *StateSettingInitialCard
-	stateResolvingCard      *StateResolvingCard
-	statePlayerTurn         *StatePlayerTurn
+	state                    State
+	stateLobby               *StateLobby
+	stateDealing             *StateDealing
+	stateSettingInitialCard  *StateSettingInitialCard
+	stateResolvingCard       *StateResolvingCard
+	statePlayerTurn          *StatePlayerTurn
+	stateAwaitingColorChoice *StateAwaitingColorChoice
 }
 
 func (g *Game) Init() {

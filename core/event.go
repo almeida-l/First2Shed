@@ -48,6 +48,13 @@ type PassCommand struct {
 
 func (PassCommand) EmitNotification() {}
 
+type SetWildColorCommand struct {
+	Player *Player
+	Color  Color
+}
+
+func (SetWildColorCommand) EmitNotification() {}
+
 // Internal events (issued by the game core itself).
 
 type DealingFinishedEvent struct{}
@@ -57,3 +64,7 @@ type InitialCardSetEvent struct{}
 func (InitialCardSetEvent) EmitNotification() {}
 
 type CardResolvedEvent struct{}
+
+type WildCardPlayedEvent struct{}
+
+func (WildCardPlayedEvent) EmitNotification() {}

@@ -22,12 +22,19 @@ func (s *StateResolvingCard) CanHandle(gameCtx *Game, e Event) bool {
 	switch e.(type) {
 	case CardResolvedEvent:
 		return true
+	case WildCardPlayedEvent:
+		return true
 	default:
 		return false
 	}
 }
 
 func (s *StateResolvingCard) OnEnter(gameCtx *Game) {
+	if gameCtx.lastPlayedCard.Color == CWild {
+		gameCtx.Process(WildCardPlayedEvent{})
+		return
+	}
+
 	if gameCtx.lastPlayedCard.HasEffect() {
 		ApplyCardEffects(gameCtx, gameCtx.lastPlayedCard)
 	}
@@ -38,6 +45,8 @@ func (s *StateResolvingCard) Next(gameCtx *Game, e Event) State {
 	switch e.(type) {
 	case CardResolvedEvent:
 		return gameCtx.statePlayerTurn
+	case WildCardPlayedEvent:
+		return gameCtx.stateAwaitingColorChoice
 	default:
 		return nil
 	}
