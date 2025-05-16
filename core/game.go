@@ -32,6 +32,8 @@ type Game struct {
 	statePlayerTurn          *StatePlayerTurn
 	stateAwaitingColorChoice *StateAwaitingColorChoice
 	stateGameOver            *StateGameOver
+
+	Notifications NotificationQueue
 }
 
 func (g *Game) Init() {
@@ -47,26 +49,38 @@ func (g *Game) Init() {
 	g.currentPlayerIdx = -1 // initializes to -1 so when the game start the NextTurn() method will be called and the first players will be set to idx 0
 
 	g.isLobbyOpen = true
+	g.Notifications = make([]Notification, 0)
 }
 
-func (g *Game) Process(e Event) {
+func (g *Game) Process(e Event) bool {
 	log.Printf("[PROCESS EVENT] Event %T: %+v", e, e)
 
-	if _, ok := e.(GlobalEvent); ok {
-		g.handleGlobalEvent(e)
-		return
+	if e, ok := e.(NotifyEvent); ok {
+		switch e.(type) {
+		case InitialCardSetEvent:
+			g.Notifications.Push(Notification{Name: "INITIAL_CARD", Data: g.lastPlayedCard})
+		case PlayerTurnNotification:
+			g.Notifications.Push(Notification{Name: "PLAYER_TURN", Data: g.currentPlayer.ID})
+		}
 	}
 
-	if g.state.CanHandle(g, e) {
-		log.Printf("[PROCESS EVENT] State %T can handle the event %T", g.state, e)
-		if state := g.state.Next(g, e); state != nil {
-			log.Printf("[PROCESS EVENT] Transitioning to state %T", state)
-			g.state = state
-			g.state.OnEnter(g)
-		}
-	} else {
-		log.Printf("[PROCESS EVENT] State %T cannot handle the event %T", g.state, e)
+	if _, ok := e.(GlobalEvent); ok {
+		return g.handleGlobalEvent(e)
 	}
+
+	if !g.state.CanHandle(g, e) {
+		log.Printf("[PROCESS EVENT] State %T cannot handle the event %T", g.state, e)
+		return false
+	}
+
+	log.Printf("[PROCESS EVENT] State %T can handle the event %T", g.state, e)
+	if state := g.state.Next(g, e); state != nil {
+		log.Printf("[PROCESS EVENT] Transitioning to state %T", state)
+		g.state = state
+		g.state.OnEnter(g)
+	}
+
+	return true
 }
 
 func (g *Game) PlayCard(player *Player, card Card) error {
@@ -127,24 +141,26 @@ func (g *Game) PopCardFromDrawPile() Card {
 	return card
 }
 
-func (g *Game) handleGlobalEvent(e Event) {
+func (g *Game) handleGlobalEvent(e Event) bool {
 	switch ev := e.(type) {
 	case PlayerJoinCommand:
-		g.handlePlayerJoin(ev)
+		return g.handlePlayerJoin(ev)
+	default:
+		return false
 	}
 }
 
-func (g *Game) handlePlayerJoin(playerJoinCommand PlayerJoinCommand) {
+func (g *Game) handlePlayerJoin(playerJoinCommand PlayerJoinCommand) bool {
 	if !g.isLobbyOpen {
 		// TODO: raise an event that notifies the player that the lobby is closed
 		log.Printf("player ID %d can't join, lobby is closed", playerJoinCommand.ID)
-		return
+		return false
 	}
 
 	if player := g.GetPlayerFromID(playerJoinCommand.ID); player != nil {
 		// TODO: raise an event that notifies the player that he is already in the game
 		log.Printf("player ID %d already in the game", playerJoinCommand.ID)
-		return
+		return false
 	}
 	newPlayer := &Player{
 		ID:   playerJoinCommand.ID,
@@ -154,4 +170,5 @@ func (g *Game) handlePlayerJoin(playerJoinCommand PlayerJoinCommand) {
 	g.players = append(g.players, newPlayer)
 	// TODO: raise an event to annouce that a new player joined
 	log.Printf("player ID %d joined", playerJoinCommand.ID)
+	return true
 }
